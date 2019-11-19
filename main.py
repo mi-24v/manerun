@@ -20,9 +20,16 @@ def do_upload():
         raise JsonError(description="Failed to create user. try again.")
     return json_response(id=_id)
 
+@app.route("/regist/<id_number>")
+def do_regist(id_number):
+    return render_template("regist.html",id_number=id_number)
+
 @app.route("/set_name", methods=["POST"])
 def save_user(username):
     data = request.get_json()
+    print(data.get("id"))
+    print(data.get("name"))
+    return(data.get("name"))
     user_id = get_user(data.get("id"))
     new_name = data.get("name")
     try:
@@ -30,6 +37,7 @@ def save_user(username):
     except Exception:
         raise JsonError(description="Failed to set username.")
     return json_response(user=_user)
+
 
 
 @app.route("/get_score", methods=["POST"])
@@ -49,5 +57,7 @@ def ranking():
     ranking_data = sorted(db.items(), key=lambda x:x[1])
     return render_template("ranking.html",ranking_data = ranking_data)
 
+
 if __name__ == '__main__':
-    app.run()
+    #app.run()
+    app.run(host='192.168.3.128', port=8000)
