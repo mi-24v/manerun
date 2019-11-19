@@ -45,7 +45,9 @@ def your_ranking():
 
 @app.route("/ranking")
 def ranking():
-    return render_template("ranking.html")
+    db = {"unchi":90,"OMMC":65,"ゆゆうた":70,"KMR":85}
+    ranking_data = sorted(db.items(), key=lambda x:x[1])
+    return render_template("ranking.html",ranking_data = ranking_data)
 
 if __name__ == '__main__':
     app.run()
