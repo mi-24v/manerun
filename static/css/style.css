@@ -1,0 +1,5 @@
+.bg_stripe{
+	background-color: #F4BBBB;
+	background-image: -webkit-gradient(linear, 0 0, 100% 0, color-stop(.5, #FFEFEF), color-stop(.5, transparent), to(transparent));
+	-webkit-background-size: 100px;
+}

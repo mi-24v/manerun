@@ -1,0 +1,25 @@
+<header>
+
+    <link rel="stylesheet" type="text/css" href="./static/css/style.css">
+    </header>
+    
+    <body>
+    
+    <div class="bg_stripe">
+      <div class="row">
+        <div class="col">
+    <p>ランキング</p>
+          <img src="./static/images/maneran.png" class="img-thumbnail">
+        </div>
+      </div>
+    
+        <table>
+    
+        <th>名前</th><th>スコア</th>
+        {% for user in ranking_data%}
+        <tr><td>{{user[0]}} </td><td>{{user[1]}}</td></tr>
+        {%endfor%}
+        </table>
+        
+        </div>
+    </body>
