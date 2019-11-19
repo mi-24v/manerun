@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, abort
-from flask_json import FlaskJSON, JsonError, json_response, as_json
+from flask_json import FlaskJSON, JsonError, jsonify,json_response, as_json
 
 import util
 
@@ -11,14 +11,14 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def do_upload():
-    upload = request.files.get('upload', '')
+    upload = request.files['upload']
     if not upload.filename.lower().endswith(('.csv')):#TODO verfy RIGHT WAY
         raise JsonError(description="Invalid file.")
     try:
         _id = util.save_csv(upload)
     except Exception:
         raise JsonError(description="Failed to create user. try again.")
-    return json_response(id=_id)
+    return jsonify(id=_id)
 
 @app.route("/regist/<id_number>")
 def do_regist(id_number):
