@@ -21,17 +21,18 @@ def do_upload():
     return jsonify(id=_id)
 
 @app.route("/regist/<id_number>")
-def do_regist(id_number):
+def do_regist(id_number):    
     return render_template("regist.html",id_number=id_number)
 
 @app.route("/set_name", methods=["POST"])
-def save_user(username):
-    data = request.get_json()
-    print(data.get("id"))
-    print(data.get("name"))
-    return(data.get("name"))
-    user_id = get_user(data.get("id"))
-    new_name = data.get("name")
+def save_user():
+    data = request.get_data()
+    print(data)
+    print(request.form["name"])
+    print(request.form["id"])
+    return(request.form["name"])
+    user_id = get_user(request.form["id"])
+    new_name = request.form["name"]
     try:
         util.set_username(user_id, new_name)
     except Exception:
