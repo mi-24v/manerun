@@ -38,9 +38,9 @@ def do_upload():
     return
         a form of registration.
 """
-@app.route("/regist/<id_number>")
-def do_regist(id_number):
-    return render_template("regist.html",id_number=id_number)
+@app.route("/regist/<uuid:_id>")
+def do_regist(_id):
+    return render_template("regist.html",id_number=_id)
 
 """
     Associates with display name and id.
