@@ -5,10 +5,19 @@ import util
 
 app = Flask(__name__)
 
+
+"""
+    Top page redirects to ranking page.
+"""
 @app.route("/")
 def index():
     return redirect(url_for('ranking'))
 
+"""
+    Receive motion data.
+    This request must contain one 'motion format' csv file.
+    This may need authorization.
+"""
 @app.route('/upload', methods=['POST'])
 def do_upload():
     upload = request.files['upload']
@@ -20,10 +29,30 @@ def do_upload():
         raise JsonError(description="Failed to create user. try again.")
     return jsonify(id=_id)
 
-@app.route("/regist/<id_number>")
-def do_regist(id_number):    
-    return render_template("regist.html",id_number=id_number)
+"""
+    Display form which associates with id and displayed name.
+    This need authorization.
 
+    request params
+        `id_number` : id such as `'d8a272d9-be39-4d81-96dc-78626ac1b5d3'`
+    return
+        a form of registration.
+"""
+@app.route("/regist/<uuid:_id>")
+def do_regist(_id):
+    return render_template("regist.html",id_number=_id)
+
+"""
+    Associates with display name and id.
+    This needs authorization.
+
+    request params
+        id : id such as `'d8a272d9-be39-4d81-96dc-78626ac1b5d3'`
+        name : name that you want to set like "John"
+    returns
+        A JSON.
+        If it success, which contains name, else error description.
+"""
 @app.route("/set_name", methods=["POST"])
 def save_user():
     data = request.get_data()
@@ -39,19 +68,42 @@ def save_user():
         raise JsonError(description="Failed to set username.")
     return json_response(user=_user)
 
+"""
+    Ask DB for user information such as score.
+    This needs authorization.
 
-
+    request params
+        id : which id you want to ask. such as `'d8a272d9-be39-4d81-96dc-78626ac1b5d3'`
+    returns
+        A page which contains user's score data.
+"""
 @app.route("/get_score", methods=["POST"])
 def get_score():
     id = request.forms.get("id")
     _name, _score = util.get_your_data(id)
     return render_template("result.html", name=_name, score=_score)
 
+"""
+    Display score ranking.
+    This needs authorization.
+
+    request params
+        id : which id you want to ask. such as `'d8a272d9-be39-4d81-96dc-78626ac1b5d3'`
+    returns
+        A page which contains users' ranking.
+"""
 @app.route("/ranking/yours", methods=["GET"])
 def your_ranking():
     _name, _score = util.get_your_data(request.args.get("id",""))
     return render_template("ranking_with_your_score.html", name=_name, score=_score)
 
+"""
+    Display score ranking.
+    This **doesn't** need authorization.
+
+    returns
+        A page which contains users' ranking.
+"""
 @app.route("/ranking")
 def ranking():
     db = {"unchi":90,"OMMC":65,"ゆゆうた":70,"KMR":85}
@@ -60,5 +112,5 @@ def ranking():
 
 
 if __name__ == '__main__':
-    #app.run()
-    app.run(host='192.168.3.128', port=8000)
+    #app.run() #TODO comment out on deploy
+    app.run(host='192.168.3.128', port=8000) #TODO remove on deploy
