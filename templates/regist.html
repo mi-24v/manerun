@@ -8,9 +8,9 @@
         </header>
     <body style="background: #fff3ff">
         <div class="col" align="center">
-            <img src="../static/images/Televice.png" class="img-thumbnail">
+            <img src="static/images/Televice.png" class="img-thumbnail">
         
-        <form method="post" action="http://localhost:8000/set_name" id="f1">
+        <form method="post" action="{{ url_for('set_name') }}" id="f1">
          <p>名前：<input type="text" name="name" /></p>
          <input type="hidden" name="id" value="{{id_number}}">
         <input type="submit" value="送信する">
