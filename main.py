@@ -175,4 +175,4 @@ def ranking():
 
 if __name__ == '__main__':
     app.run() #TODO comment out on deploy
-    # app.run(host='192.168.3.128', port=8000) #TODO remove on deploy
+    # app.run(host='localhost', port=8000, debug=True) #TODO remove on deploy
