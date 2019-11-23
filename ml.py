@@ -7,7 +7,7 @@ import tensorflow as tf
 from google.cloud import firestore, storage
 from io import StringIO
 
-storege_client = storege.Client()
+storege_client = storage.Client()
 
 #model読み込み
 blob = storege_client.get_bucket("manerun-mlengine").blob("test.h5")
@@ -15,7 +15,7 @@ model = tf.keras.models.load_model(blob.download_as_string())
 
 def Score_generate(csv_str):
     #CSVの読み込み
-    csv_data = StringIO(csv_str).decode("utf-8")
+    csv_data = StringIO(csv_str.decode("utf-8"))
     df_Data=pd.read_csv(csv_data)
     
     width = 24
