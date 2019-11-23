@@ -4,6 +4,7 @@ from model.user import User
 import ml
 
 import uuid
+import threading
 
 
 db = firestore.Client()
@@ -44,7 +45,7 @@ def create_user():
 def save_csv(csv):
     user = create_user()
     insert_csv(user.csv_id, csv)
-    # ml.delegate_ML(user)
+    threading.Thread(target=ml.delegate_ML, args=(user,)).start()
     return user.id
 
 def set_user_name(id, name):
