@@ -1,10 +1,10 @@
 from google.cloud import firestore, storage
 
 from model.user import User
-import ml
+# import ml
 
 import uuid
-import threading
+# import threading
 import ast
 
 
@@ -56,7 +56,7 @@ def create_user():
 def save_csv(csv):
     user = create_user()
     insert_csv(user.csv_id, csv)
-    threading.Thread(target=ml.delegate_ML, args=(user,)).start()
+    # threading.Thread(target=ml.delegate_ML, args=(user,)).start()
     return user.id
 
 def set_user_name(id, name):
