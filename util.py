@@ -5,12 +5,23 @@ import ml
 
 import uuid
 import threading
+import ast
 
 
 db = firestore.Client()
 storage_client = storage.Client()
 USER_KIND = "users"
 MOTION_BUCKET_NAME = "manerun-motions"
+
+def check_contain_id(dict_str_with_id, logger):
+    logger.info("dict_str->{}\ntype of dict_str->{}".format(dict_str_with_id,type(dict_str_with_id)))
+    try:
+        _id = ast.literal_eval(dict_str_with_id)["id"][0]
+        assert isinstance(uuid.UUID(_id), uuid.UUID), "{} is not UUID-String.".format(_id)
+    except (ValueError, AssertionError) as e:
+        logger.warn("invalid string found : {}\nexception detail :\n{}".format(dict_str_with_id, e))
+    logger.info("id->{}".format(_id))
+    return _id
 
 def get_user(id):
     user_ref = db.collection(USER_KIND).document(id)
