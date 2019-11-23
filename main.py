@@ -40,8 +40,8 @@ def sign_out():
 
 @auth.production_loader
 def production_loader(token, params):
-    _id = util.check_contain_id(params)
-    user = util.get_user_with_token(_id ,token["userid"])
+    _id = util.check_contain_id(params, app.logger)
+    user = util.get_user_with_token(_id ,token.get("user_id"))
     if user is not None:
         login_user(user, True)
 
