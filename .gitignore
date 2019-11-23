@@ -21,3 +21,4 @@ credentials.dat
 *sponge_log.xml
 .DS_store
 env/
+secret.yaml
