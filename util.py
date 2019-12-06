@@ -10,7 +10,7 @@ import ast
 
 db = firestore.Client()
 storage_client = storage.Client()
-USER_KIND = "users"
+USER_KIND = "user"
 MOTION_BUCKET_NAME = "manerun-motions"
 
 def check_contain_id(dict_str_with_id, logger):
@@ -24,10 +24,10 @@ def check_contain_id(dict_str_with_id, logger):
     return _id
 
 def get_user(id):
-    user_ref = db.collection(USER_KIND).document(id)
-    try:
-        user = User.from_dict(user_ref.get().to_dict())
-    except google.cloud.exceptions.NotFound:
+    user_ref = db.collection(USER_KIND).document(id).get()
+    if user_ref.exists:
+        user = User.from_dict(user_ref.to_dict())
+    else:
         user = None
     return user
 
@@ -67,8 +67,8 @@ def get_ranking_data():
     score_list = []
     ranking_stream = db.collection(USER_KIND).select(["name","score"]).order_by("score", direction="DESCENDING").stream()
     for data in ranking_stream:
-        name_list.append(data.name)
-        score_list.append(data.score)
+        name_list.append(data.get("name"))
+        score_list.append(data.get("score"))
 
     rank = ["1st ","2nd ","3rd "]
     rank += [str(i+4)+"th " for i in range( len(score_list)-3)]
@@ -78,8 +78,8 @@ def get_ranking_data():
 def get_your_data(id):
     return User.from_dict(db.collection(USER_KIND).document(id).get().to_dict())
 
-def insert_csv(csv_name, csv):
+def insert_csv(file_name, file):
     bucket = storage_client.get_bucket(MOTION_BUCKET_NAME)
-    blob = bucket.blob(csv_name)
-    blob.upload_from_filename(csv.name)
+    blob = bucket.blob(file_name)
+    blob.upload_from_string(file.read(),file.content_type)
 
