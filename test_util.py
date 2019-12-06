@@ -32,5 +32,5 @@ def test_get_ranking_data():
     util.get_ranking_data()
 
 def test_save_csv(csv, user):
-    assert util.save_csv(csv) == user.id
+    assert util.save_csv(csv) == user.csv_id
 

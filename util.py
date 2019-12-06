@@ -51,13 +51,13 @@ def create_user():
     csv_id = str(uuid.uuid4())
     user = User(id, csv_id)
     db.collection(USER_KIND).document(user.id).set(user.to_dict())
-    return id
+    return csv_id
 
 def save_csv(csv):
-    user = create_user()
-    insert_csv(user.csv_id, csv)
+    csv_id = create_user()
+    insert_csv(csv_id, csv)
     # threading.Thread(target=ml.delegate_ML, args=(user,)).start()
-    return user.id
+    return csv_id
 
 def set_user_name(id, name):
     db.collection(USER_KIND).document(id).update({"name":name})
