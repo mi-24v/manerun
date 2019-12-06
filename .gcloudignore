@@ -15,8 +15,11 @@
 
 secret.yaml.encrypted
 
+.vscode
+
 # Python pycache:
 __pycache__/
+.pytest_cache
 env/
 # Ignored by the build system
 /setup.cfg
