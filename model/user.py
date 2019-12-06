@@ -29,7 +29,7 @@ class User(UserMixin):
 
         return user
 
-    def to_dick(self):
+    def to_dict(self):
         dest = {
             "id" : self.id,
             "motion_id" : self.motion_id,
@@ -48,3 +48,12 @@ class User(UserMixin):
 
     def __repr__(self):
         return "User(id={}, motion_id={}, user_token={}, name={}, score={})".format(self.id, self.motion_id, self.user_token, self.name, self.score)
+
+    def __eq__(self, other):
+        if isinstance(other, User):
+            return self.id == other.id \
+                and self.motion_id == other.motion_id \
+                and self.user_token == other.user_token \
+                and self.name == other.name \
+                and self.score == other.score
+        return NotImplemented
