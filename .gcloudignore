@@ -20,3 +20,6 @@ __pycache__/
 env/
 # Ignored by the build system
 /setup.cfg
+
+#test
+test*
