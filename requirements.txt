@@ -6,7 +6,7 @@ certifi==2019.9.11
 cffi==1.13.2
 chardet==3.0.4
 Click==7.0
-cryptography==2.8
+cryptography==3.2
 Flask==1.1.1
 -e git+https://github.com/mi-24v/Flask-FirebaseAuth@3ec0de342efeec4b81dc14b48d2ec5face15db41#egg=Flask_FirebaseAuth
 Flask-JSON==0.3.4
